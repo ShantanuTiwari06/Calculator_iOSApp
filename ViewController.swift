@@ -12,6 +12,7 @@ enum CalOptions{
     case kSub
     case kDiv
     case kMul
+    case kMod
 }
 class ViewController: UIViewController {
     
@@ -81,6 +82,8 @@ class ViewController: UIViewController {
     func calculate(num1:String, num2: String, calOp: CalOptions) -> Float{
         let val1 = Float(num1) ?? 0.0
         let val2 = Float(num2) ?? 0.0
+        let val1Int = Int(num1)
+        let val2Int = Int(num2)
 
         switch calOp {
         case .kDiv:
@@ -91,6 +94,8 @@ class ViewController: UIViewController {
             return val1+val2
         case .kSub:
             return val1-val2
+        case .kMod:
+            return Float(Int(val1Int ?? 0) % Int(val2Int ?? 0))
         }
     }
     
@@ -316,12 +321,28 @@ class ViewController: UIViewController {
 
         updateMainLabel()
     }
+   
     @IBAction func btnmodTapped(_ sender: UIButton) {
+        mainString = mainString + "%"
+        self.operatorLabel.text = "%"
+        if val1 != "" && val2 == "" {
+            operate = .kMod
+            if val1 != "" {
+                isSecondVal = true
+            }else{
+                isSecondVal = false
+            }
+        }else if val1 == ""{
+            val2 = ""
+        }
 
+        updateMainLabel()
     }
+    
     @IBAction func btnplusminusTapped(_ sender: UIButton) {
     
     }
+    
     @IBAction func btnacTapped(_ sender: UIButton) {
         self.operatorLabel.text = ""
         isSecondVal = false
